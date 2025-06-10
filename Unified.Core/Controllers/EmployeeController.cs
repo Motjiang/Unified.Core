@@ -46,5 +46,23 @@ namespace Unified.Core.Controllers
             return Ok(members);
         }
 
+        [HttpGet("get-member/{id}")]
+        public async Task<ActionResult<UpdateEmployeeDto>> GetMember(string id)
+        {
+            var memberEntity = await _userManager.Users
+                .Where(x => x.UserName != DataSeed.AdminUserName && x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (memberEntity == null)
+                return NotFound();
+
+            var dto = _mapper.Map<UpdateEmployeeDto>(memberEntity);
+
+            // Set roles manually since it's an async call
+            var roles = await _userManager.GetRolesAsync(memberEntity);
+            dto.Roles = string.Join(",", roles);
+
+            return Ok(dto);
+        }
     }
 }

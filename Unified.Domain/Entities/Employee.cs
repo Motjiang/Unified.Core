@@ -5,10 +5,28 @@ namespace Unified.Domain.Entities
 {
     public class Employee : IdentityUser
     {
-        [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public int? Age { get; set; }
+        public string? IdentityNumber { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
+        public string? Province { get; set; }
+        public string? City { get; set; }
+        public string? StreetAddress { get; set; }
+        public string? PostalCode { get; set; }
+        public string CreatedBy { get; set; }
+        public string Status { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateModified { get; set; }
+        public DateTime? DateRemoved { get; set; }
+
+        public int? DesignationId { get; set; }
+        public Designation Designation { get; set; }
+
+        public int? DepartmentId { get; set; }
+        public Department Department { get; set; }
+        public ICollection<BookRequest>? RequestsMade { get; set; } = new List<BookRequest>();      
+        public ICollection<BookRequest>? RequestsProcessed { get; set; } = new List<BookRequest>();
     }
 }
+

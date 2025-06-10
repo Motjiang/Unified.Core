@@ -45,6 +45,9 @@ namespace Unified.Infrastructure.Data
                     LastName = "user001",
                     UserName = DataSeed.AdminUserName,
                     Email = DataSeed.AdminUserName,
+                    Status = "Active",
+                    CreatedBy = "System",
+                    DateCreated = DateTime.Now,
                     EmailConfirmed = true
                 };
                 await _userManager.CreateAsync(admin, "123456");
@@ -61,6 +64,9 @@ namespace Unified.Infrastructure.Data
                     LastName = "user002",
                     UserName = DataSeed.HrUserName,
                     Email = DataSeed.HrUserName,
+                    Status = "Active",
+                    CreatedBy = "System",
+                    DateCreated = DateTime.Now,
                     EmailConfirmed = true
                 };
                 await _userManager.CreateAsync(hr, "123456");
