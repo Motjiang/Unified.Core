@@ -45,4 +45,7 @@ Built using modern technologies including ASP.NET Core RESTful APIs, Angular 17,
 | Email Service   | Mailjet SMTP                              |
 | Database        | Microsoft SQL Server                       |
 | Cloud Hosting   | Microsoft Azure (App Services, SQL Database, Blob Storage) |
+| Testing (Backend) | xUnit                                   |
+| Testing (Frontend)| Jasmine, Karma                            |
 | Version Control | Git & GitHub                              |
+
