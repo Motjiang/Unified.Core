@@ -20,16 +20,17 @@ namespace Unified.Infrastructure.Data
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketCategory> TicketCategories { get; set; }
         public DbSet<TicketSubcategory> TicketSubcategories { get; set; }
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<BookRequest>()
-            .HasOne(br => br.ProcessedByAdmin)
-            .WithMany(e => e.RequestsProcessed)
-            .HasForeignKey(br => br.ProcessedByAdminId)
-            .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(br => br.ProcessedByAdmin)
+                .WithMany(e => e.RequestsProcessed)
+                .HasForeignKey(br => br.ProcessedByAdminId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<BookRequest>()
                 .HasOne(br => br.RequestedByUser)
@@ -77,6 +78,18 @@ namespace Unified.Infrastructure.Data
                 .HasOne(e => e.Department)
                 .WithMany()
                 .HasForeignKey(e => e.DepartmentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<LeaveRequest>()
+                 .HasOne(lr => lr.RequestedByEmployee)
+                 .WithMany(e => e.LeaveRequestsSubmitted)
+                 .HasForeignKey(lr => lr.RequestedByEmployeeId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<LeaveRequest>()
+                .HasOne(lr => lr.ProcessedByEmployee)
+                .WithMany(e => e.LeaveRequestsProcessed)
+                .HasForeignKey(lr => lr.ProcessedByEmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

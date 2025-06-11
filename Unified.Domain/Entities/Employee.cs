@@ -27,6 +27,9 @@ namespace Unified.Domain.Entities
         public Department Department { get; set; }
         public ICollection<BookRequest>? RequestsMade { get; set; } = new List<BookRequest>();      
         public ICollection<BookRequest>? RequestsProcessed { get; set; } = new List<BookRequest>();
+
+        public ICollection<LeaveRequest>? LeaveRequestsSubmitted { get; set; } = new List<LeaveRequest>();
+        public ICollection<LeaveRequest>? LeaveRequestsProcessed { get; set; } = new List<LeaveRequest>();
     }
 }
 
