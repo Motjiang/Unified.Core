@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,15 @@ namespace Unified.Infrastructure.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<Employee> _userManager;
 
-        public EmployeeRepository(ApplicationDbContext context)
+        public EmployeeRepository(ApplicationDbContext context, UserManager<Employee> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public async Task AddEmployeeAsync(Employee employee, string id)
+        public async Task AddEmployeeAsync(Employee employee, string role, string id)
         {
             employee.CreatedBy = id;
             employee.DateCreated = DateTime.UtcNow;
@@ -27,8 +30,8 @@ namespace Unified.Infrastructure.Repositories
             employee.EmailConfirmed = true; 
             employee.UserName = employee.Email;
 
-            await _context.Users.AddAsync(employee);
-            await _context.SaveChangesAsync();
+            await _userManager.CreateAsync(employee, DataSeed.Password);
+            await _userManager.AddToRoleAsync(employee, role);
         }
 
         public async Task<IEnumerable<Employee>> GetAllEmployeesAsync( string id)
@@ -52,10 +55,36 @@ namespace Unified.Infrastructure.Repositories
             return employee;
         }
 
-        public async Task UpdateEmployeeAsync(Employee employee)
+        public async Task UpdateEmployeeAsync(Employee employee, string newRole)
         {
-            _context.Users.Update(employee);
-            await _context.SaveChangesAsync();
+            var existingUser = await _userManager.FindByIdAsync(employee.Id);
+            if (existingUser == null)
+            {
+                throw new KeyNotFoundException("Employee not found.");
+            }
+
+            // Update profile info
+            existingUser.FirstName = employee.FirstName;
+            existingUser.LastName = employee.LastName;
+            existingUser.Email = employee.Email;
+            existingUser.UserName = employee.Email;
+            existingUser.DepartmentId = employee.DepartmentId;
+            existingUser.DesignationId = employee.DesignationId;
+
+            var result = await _userManager.UpdateAsync(existingUser);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException("Failed to update employee profile.");
+            }
+
+            // Update role
+            var currentRoles = await _userManager.GetRolesAsync(existingUser);
+            if (currentRoles.Any())
+            {
+                await _userManager.RemoveFromRolesAsync(existingUser, currentRoles);
+            }
+
+            await _userManager.AddToRoleAsync(existingUser, newRole);
         }
 
         public async Task DeleteEmployeeAsync(Employee employee)

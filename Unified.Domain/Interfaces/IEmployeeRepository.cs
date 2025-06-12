@@ -11,8 +11,8 @@ namespace Unified.Domain.Interfaces
     {
         Task<IEnumerable<Employee>> GetAllEmployeesAsync( string id);
         Task<Employee> GetEmployeeByIdAsync(string id);
-        Task AddEmployeeAsync(Employee employee, string id);
-        Task UpdateEmployeeAsync(Employee employee);
+        Task AddEmployeeAsync(Employee employee, string role, string id);
+        Task UpdateEmployeeAsync(Employee employee, string role);
         Task DeleteEmployeeAsync(Employee employee);
     }
 }

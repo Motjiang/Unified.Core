@@ -11,8 +11,8 @@ namespace Unified.Application.Interfaces
     {
         Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync(string id);
         Task<EmployeeDto> GetEmployeeByIdAsync(string id);
-        Task AddEmployeeAsync(CreateEmployeeDto employee, string id);
-        Task UpdateEmployeeAsync(EmployeeDto employee);
+        Task AddEmployeeAsync(CreateEmployeeDto employee, string role, string id);
+        Task UpdateEmployeeAsync(EmployeeDto employee, string role);
         Task DeleteEmployeeAsync(EmployeeDto employee);
     }
 }

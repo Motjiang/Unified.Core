@@ -25,7 +25,6 @@ namespace Unified.Application.DTOs.Employee
         public string? IdentityNumber { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Date of Birth")]
         public DateOnly? DateOfBirth { get; set; }
 
         public string? Province { get; set; }
@@ -45,6 +44,8 @@ namespace Unified.Application.DTOs.Employee
         public string? CreatedBy { get; set; }
 
         public string? Status { get; set; }
+
+        public string? Role { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]

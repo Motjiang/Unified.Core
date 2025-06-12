@@ -20,6 +20,9 @@ namespace Unified.Infrastructure.Data
         public const string TechnicianUserName = "technician@example.com";
         public const string AssisstantUserName = "assisstant@example.com";
 
+        // Default Password
+        public const string Password = "Unified2025";
+
         //Login Attempts
         public const int MaximumLoginAttempts = 3;
     }
