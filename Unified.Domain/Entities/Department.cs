@@ -14,7 +14,7 @@ namespace Unified.Domain.Entities
         public string Name { get; set; }
         public string Status { get; set; }
 
-        public ICollection<Designation> Designations { get; set; }
-        public ICollection<Employee> Employees { get; set; }
+        public ICollection<Designation> Designations { get; set; } = new List<Designation>();
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

@@ -70,13 +70,13 @@ namespace Unified.Infrastructure.Data
 
             builder.Entity<Employee>()
                 .HasOne(e => e.Designation)
-                .WithMany()
+                .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DesignationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Employee>()
                 .HasOne(e => e.Department)
-                .WithMany()
+                .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 

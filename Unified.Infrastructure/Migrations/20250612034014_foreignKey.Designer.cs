@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Unified.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Unified.Infrastructure.Data;
 namespace Unified.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612034014_foreignKey")]
+    partial class foreignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -396,7 +399,13 @@ namespace Unified.Infrastructure.Migrations
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartmentId1")
+                        .HasColumnType("int");
+
                     b.Property<int?>("DesignationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DesignationId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -467,7 +476,11 @@ namespace Unified.Infrastructure.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("DepartmentId1");
+
                     b.HasIndex("DesignationId");
+
+                    b.HasIndex("DesignationId1");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -770,14 +783,22 @@ namespace Unified.Infrastructure.Migrations
             modelBuilder.Entity("Unified.Domain.Entities.Employee", b =>
                 {
                     b.HasOne("Unified.Domain.Entities.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Unified.Domain.Entities.Designation", "Designation")
+                    b.HasOne("Unified.Domain.Entities.Department", null)
                         .WithMany("Employees")
+                        .HasForeignKey("DepartmentId1");
+
+                    b.HasOne("Unified.Domain.Entities.Designation", "Designation")
+                        .WithMany()
                         .HasForeignKey("DesignationId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Unified.Domain.Entities.Designation", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("DesignationId1");
 
                     b.Navigation("Department");
 

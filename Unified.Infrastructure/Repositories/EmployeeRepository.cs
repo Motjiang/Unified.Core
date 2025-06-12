@@ -19,18 +19,24 @@ namespace Unified.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddEmployeeAsync(Employee employee)
+        public async Task AddEmployeeAsync(Employee employee, string id)
         {
+            employee.CreatedBy = id;
+            employee.DateCreated = DateTime.UtcNow;
+            employee.Status = "Active";
+            employee.EmailConfirmed = true; 
+            employee.UserName = employee.Email;
+
             await _context.Users.AddAsync(employee);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
+        public async Task<IEnumerable<Employee>> GetAllEmployeesAsync( string id)
         {
             var employees = await _context.Users
                 .Include(e => e.Designation)
                 .Include(e => e.Department)
-                .Where(e => e.Status == "Active")
+                .Where(e => e.Status == "Active" && e.Id != id)
                 .ToListAsync();
 
             return employees;

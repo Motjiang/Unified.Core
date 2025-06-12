@@ -32,11 +32,7 @@ namespace Unified.Application.DTOs.Leave
         [Required(ErrorMessage = "Requesting employee is required")]
         public string RequestedByEmployeeId { get; set; }
 
-        public Employee? RequestedByEmployee { get; set; }
-
         public string? ProcessedByEmployeeId { get; set; }
-
-        public Employee? ProcessedByEmployee { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? DateApproved { get; set; }

@@ -9,9 +9,9 @@ namespace Unified.Application.Interfaces
 {
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync();
+        Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync(string id);
         Task<EmployeeDto> GetEmployeeByIdAsync(string id);
-        Task AddEmployeeAsync(CreateEmployeeDto employee);
+        Task AddEmployeeAsync(CreateEmployeeDto employee, string id);
         Task UpdateEmployeeAsync(EmployeeDto employee);
         Task DeleteEmployeeAsync(EmployeeDto employee);
     }

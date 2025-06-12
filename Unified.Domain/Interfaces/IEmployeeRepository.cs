@@ -9,9 +9,9 @@ namespace Unified.Domain.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<Employee>> GetAllEmployeesAsync();
+        Task<IEnumerable<Employee>> GetAllEmployeesAsync( string id);
         Task<Employee> GetEmployeeByIdAsync(string id);
-        Task AddEmployeeAsync(Employee employee);
+        Task AddEmployeeAsync(Employee employee, string id);
         Task UpdateEmployeeAsync(Employee employee);
         Task DeleteEmployeeAsync(Employee employee);
     }

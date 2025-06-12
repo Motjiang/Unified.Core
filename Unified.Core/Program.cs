@@ -14,7 +14,6 @@ using Unified.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -24,14 +23,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// be able to inject JWTService class inside our Controllers
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ApplicationDataSeed>();
-// be able to inject IMapper interface
+
+// IMapper interface
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// be able to inject our repositories
+// repositories
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDesignationRepository, DesignationRepository>();
@@ -44,7 +43,7 @@ builder.Services.AddScoped<ITicketSubcategoryRepository, TicketSubcategoryReposi
 builder.Services.AddScoped<IAuditTrailRepository, AuditTrailRepository>();
 builder.Services.AddScoped<IBookRequestRepository, BookRequestRepository>();
 
-// be able to inject our services
+// services
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDesignationService, DesignationService>();
 builder.Services.AddScoped<IBookCategoryService, BookCategoryService>();
@@ -70,12 +69,12 @@ builder.Services.AddIdentityCore<Employee>(options =>
     // for email confirmation
     options.SignIn.RequireConfirmedEmail = true;
 })
-    .AddRoles<IdentityRole>() // be able to add roles
-    .AddRoleManager<RoleManager<IdentityRole>>() // be able to make use of RoleManager
-    .AddEntityFrameworkStores<ApplicationDbContext>() // providing our context
-    .AddSignInManager<SignInManager<Employee>>() // make use of Signin manager
-    .AddUserManager<UserManager<Employee>>() // make use of UserManager to create users
-    .AddDefaultTokenProviders(); // be able to create tokens for email confirmation
+    .AddRoles<IdentityRole>() 
+    .AddRoleManager<RoleManager<IdentityRole>>() 
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<SignInManager<Employee>>() 
+    .AddUserManager<UserManager<Employee>>() 
+    .AddDefaultTokenProviders(); 
 
 // be able to authenticate users using JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

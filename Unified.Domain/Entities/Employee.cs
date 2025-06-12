@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Unified.Domain.Entities
 {
@@ -21,9 +22,13 @@ namespace Unified.Domain.Entities
         public DateTime? DateRemoved { get; set; }
 
         public int? DesignationId { get; set; }
+
+        [ForeignKey(nameof(DesignationId))]
         public Designation Designation { get; set; }
 
         public int? DepartmentId { get; set; }
+
+        [ForeignKey(nameof(DepartmentId))]
         public Department Department { get; set; }
         public ICollection<BookRequest>? RequestsMade { get; set; } = new List<BookRequest>();      
         public ICollection<BookRequest>? RequestsProcessed { get; set; } = new List<BookRequest>();

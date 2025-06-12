@@ -22,7 +22,7 @@ namespace Unified.Application.Services
             _mapper = mapper;
         }
 
-        public async Task AddEmployeeAsync(CreateEmployeeDto employee)
+        public async Task AddEmployeeAsync(CreateEmployeeDto employee, string id)
         {
             await _employeeRepository.AddEmployeeAsync(_mapper.Map<Employee>(employee));
         }
@@ -32,9 +32,9 @@ namespace Unified.Application.Services
             await _employeeRepository.DeleteEmployeeAsync(_mapper.Map<Employee>(employee));
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync()
+        public async Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync(string id)
         {
-            return _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeRepository.GetAllEmployeesAsync());
+            return _mapper.Map<IEnumerable<EmployeeDto>>(await _employeeRepository.GetAllEmployeesAsync(id));
         }
 
         public async Task<EmployeeDto> GetEmployeeByIdAsync(string id)

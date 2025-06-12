@@ -46,7 +46,7 @@ namespace Unified.Infrastructure.Data
                     UserName = DataSeed.AdminUserName,
                     Email = DataSeed.AdminUserName,
                     Status = "Active",
-                    CreatedBy = "System",
+                    CreatedBy = "0000",
                     DateCreated = DateTime.Now,
                     EmailConfirmed = true
                 };
@@ -65,7 +65,7 @@ namespace Unified.Infrastructure.Data
                     UserName = DataSeed.HrUserName,
                     Email = DataSeed.HrUserName,
                     Status = "Active",
-                    CreatedBy = "System",
+                    CreatedBy = "000",
                     DateCreated = DateTime.Now,
                     EmailConfirmed = true
                 };

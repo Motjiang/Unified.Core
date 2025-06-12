@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Unified.Application.DTOs.Admin;
+using Unified.Application.DTOs.Employee;
+using Unified.Application.Interfaces;
 using Unified.Domain.Entities;
 using Unified.Infrastructure.Data;
 
@@ -17,52 +19,80 @@ namespace Unified.Core.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly UserManager<Employee> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IMapper _mapper;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
+        public EmployeeController(UserManager<Employee> userManager, IEmployeeService employeeService)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
-            _mapper = mapper;
+            _employeeService = employeeService;
         }
 
-        [HttpGet("get-members")]
-        public async Task<ActionResult<IEnumerable<ViewEmployeeDto>>> GetMembers()
+        [HttpGet("get-all-employees")]
+        public async Task<IActionResult> GetAllEmployees()
         {
-            var users = await _userManager.Users
-                .Where(x => x.UserName != DataSeed.AdminUserName)
-                .ToListAsync();
+            var loogedInUser = await _userManager.GetUserAsync(User);
 
-            var members = _mapper.Map<List<ViewEmployeeDto>>(users);
+            var employees = await _employeeService.GetAllEmployeesAsync(loogedInUser.Id);
 
-            // Populate roles and lock status manually
-            for (int i = 0; i < users.Count; i++)
+            if (employees == null || !employees.Any())
             {
-                members[i].IsLocked = await _userManager.IsLockedOutAsync(users[i]);
-                members[i].Roles = (await _userManager.GetRolesAsync(users[i])).ToList();
+                return NotFound(new
+                {
+                    title = "No Employees Found",
+                    message = "There are no employees in the system."
+                });
             }
 
-            return Ok(members);
+            return Ok(employees);
         }
 
-        [HttpGet("get-member/{id}")]
-        public async Task<ActionResult<UpdateEmployeeDto>> GetMember(string id)
+        [HttpGet("get-employee-by-id/{id}")]
+        public async Task<IActionResult> GetEmployeeById(string id)
         {
-            var memberEntity = await _userManager.Users
-                .Where(x => x.UserName != DataSeed.AdminUserName && x.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (memberEntity == null)
-                return NotFound();
-
-            var dto = _mapper.Map<UpdateEmployeeDto>(memberEntity);
-
-            // Set roles manually since it's an async call
-            var roles = await _userManager.GetRolesAsync(memberEntity);
-            dto.Roles = string.Join(",", roles);
-
-            return Ok(dto);
+            var employee = await _employeeService.GetEmployeeByIdAsync(id);
+            if (employee == null)
+            {
+                return NotFound(new
+                {
+                    title = "Employee Not Found",
+                    message = "No active employee found"
+                });
+            }
+            return Ok(employee);
         }
+
+        [HttpPost("add-employee")]
+        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeDto employeeDto)
+        {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+
+            if (loggedInUser == null)
+            {
+                return Unauthorized(new
+                {
+                    title = "Unauthorized",
+                    message = "You must be logged in as HR/Admin to create an employee."
+                });
+            }
+
+            if (await CheckEmailExistsAsync(employeeDto.Email))
+            {
+                return Conflict(new
+                {
+                    title = "Email Already Exists",
+                    message = "An employee with this email already exists."
+                });
+            }
+
+           await _employeeService.AddEmployeeAsync(employeeDto, loggedInUser.Id);
+        }
+
+
+        #region
+        private async Task<bool> CheckEmailExistsAsync(string email)
+        {
+            return await _userManager.Users.AnyAsync(x => x.Email == email.ToLower());
+        }
+        #endregion
     }
 }
