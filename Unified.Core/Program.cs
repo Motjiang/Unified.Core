@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Unified.Application.Interfaces;
 using Unified.Application.Services;
+using Unified.Application.Services.Auth;
 using Unified.Domain.Entities;
+using Unified.Domain.Interfaces;
 using Unified.Infrastructure.Data;
+using Unified.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +30,31 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ApplicationDataSeed>();
 // be able to inject IMapper interface
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// be able to inject our repositories
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IDesignationRepository, DesignationRepository>();
+builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<ITicketCategoryRepository, TicketCategoryRepository>();
+builder.Services.AddScoped<ITicketSubcategoryRepository, TicketSubcategoryRepository>();
+builder.Services.AddScoped<IAuditTrailRepository, AuditTrailRepository>();
+builder.Services.AddScoped<IBookRequestRepository, BookRequestRepository>();
+
+// be able to inject our services
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IDesignationService, DesignationService>();
+builder.Services.AddScoped<IBookCategoryService, BookCategoryService>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBookRequestService, BookRequestService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<ITicketCategoryService, TicketCategoryService>();
+builder.Services.AddScoped<ITicketSubcategoryService, TicketSubcategoryService>();
+builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+
 
 // defining our IdentityCore Service
 builder.Services.AddIdentityCore<Employee>(options =>

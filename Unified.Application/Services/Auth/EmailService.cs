@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unified.Application.DTOs.Auth;
 
-namespace Unified.Application.Services
+namespace Unified.Application.Services.Auth
 {
     public class EmailService
     {

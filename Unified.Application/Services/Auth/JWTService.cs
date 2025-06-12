@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unified.Domain.Entities;
 
-namespace Unified.Application.Services
+namespace Unified.Application.Services.Auth
 {
     public class JWTService
     {

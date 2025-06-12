@@ -18,9 +18,7 @@ namespace Unified.Domain.Entities
         public int CategoryId { get; set; }
         public BookCategory? Category { get; set; }
         public decimal Price { get; set; }        
-        public int StockQuantity { get; set; }
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Cost price must be greater than {0}.")]
+        public int StockQuantity { get; set; }        
         public decimal CostPrice { get; set; }
         public ICollection<SalesTransaction>? SalesTransactions { get; set; }
     }

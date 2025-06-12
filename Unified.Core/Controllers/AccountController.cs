@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Unified.Application.DTOs.Auth;
-using Unified.Application.Services;
+using Unified.Application.Services.Auth;
 using Unified.Domain.Entities;
 using Unified.Infrastructure.Data;
 
