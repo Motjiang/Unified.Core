@@ -19,11 +19,12 @@ namespace Unified.Application.DTOs.Book
 
         [Required(ErrorMessage = "Published date is required")]
         [DataType(DataType.Date)]
-        [Display(Name = "Published Date")]
         public DateTime PublishedDate { get; set; }
+        [Required(ErrorMessage = "Edition is required")]
+        [StringLength(50, ErrorMessage = "Edition cannot exceed 50 characters")]
+        public string Edition { get; set; }
 
         [Required(ErrorMessage = "Category is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid category")]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Price is required")]
@@ -37,7 +38,6 @@ namespace Unified.Application.DTOs.Book
 
         [Required(ErrorMessage = "Cost price is required")]
         [Range(0.01, 100000, ErrorMessage = "Cost price must be between 0.01 and 100000")]
-        [Display(Name = "Cost Price")]
         public decimal CostPrice { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task AddBookAsync(Book book)
         {
+            book.Status = "Active"; // Set default status to Active
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }               
@@ -50,6 +51,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteBookAsync(Book book)
         {
+            book.Status = "Inactive"; // Soft delete by setting status to Inactive
             _context.Books.Update(book);
             await _context.SaveChangesAsync();
         }

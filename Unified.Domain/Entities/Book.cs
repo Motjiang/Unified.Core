@@ -14,6 +14,7 @@ namespace Unified.Domain.Entities
         public string Title { get; set; }
         public string Author { get; set; }
         public DateTime PublishedDate { get; set; }
+        public string Edition { get; set; }
         public string Status { get; set; }
         public int CategoryId { get; set; }
         public BookCategory? Category { get; set; }
