@@ -31,9 +31,6 @@ namespace Unified.Application.DTOs.Book
         [DataType(DataType.Date)]
         public DateTime RequestDate { get; set; }
 
-        [Required(ErrorMessage = "Status is required")]
-        public string Status { get; set; }
-
         [Required(ErrorMessage = "Employee number is required")]
         public string ProcessedByAdminId { get; set; }
 

@@ -22,10 +22,6 @@ namespace Unified.Application.DTOs.Book
         [Display(Name = "Published Date")]
         public DateTime PublishedDate { get; set; }
 
-        [Required(ErrorMessage = "Status is required")]
-        [StringLength(50, ErrorMessage = "Status cannot exceed 50 characters")]
-        public string Status { get; set; }
-
         [Required(ErrorMessage = "Category is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a valid category")]
         public int CategoryId { get; set; }

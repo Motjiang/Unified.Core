@@ -21,6 +21,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task AddBookCategoryAsync(BookCategory bookCategory)
         {
+             bookCategory.Status = "Active"; // Set default status to Active
             await _context.BookCategories.AddAsync(bookCategory);
             await _context.SaveChangesAsync();
         }        
@@ -49,6 +50,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteBookCategoryAsync(BookCategory bookCategory)
         {
+            bookCategory.Status = "Inactive"; // Soft delete by setting status to Inactive
             _context.BookCategories.Update(bookCategory);
             await _context.SaveChangesAsync();
         }
