@@ -22,29 +22,29 @@ namespace Unified.Application.Services
             _mapper = mapper;
         }
 
-        public async Task AddBookAsync(CreateTicketDto book)
+        public async Task AddTicketAsync(CreateTicketDto Ticket)
         {
-            await _ticketRepository.AddTicketAsync(_mapper.Map<Ticket>(book));
+            await _ticketRepository.AddTicketAsync(_mapper.Map<Ticket>(Ticket));
         }
 
-        public async Task DeleteBookAsync(TicketDto book)
+        public async Task DeleteTicketAsync(TicketDto Ticket)
         {
-            await _ticketRepository.DeleteTicketAsync(_mapper.Map<Ticket>(book));
+            await _ticketRepository.DeleteTicketAsync(_mapper.Map<Ticket>(Ticket));
         }
 
-        public async Task<IEnumerable<TicketDto>> GetAllBooksAsync()
+        public async Task<IEnumerable<TicketDto>> GetAllTicketsAsync()
         {
             return _mapper.Map<IEnumerable<TicketDto>>(await _ticketRepository.GetAllTicketsAsync());   
         }
 
-        public async Task<TicketDto> GetBookByIdAsync(int id)
+        public async Task<TicketDto> GetTicketByIdAsync(int id)
         {
             return _mapper.Map<TicketDto>(await _ticketRepository.GetTicketByIdAsync(id));
         }
 
-        public async Task UpdateBookAsync(TicketDto book)
+        public async Task UpdateTicketAsync(TicketDto Ticket)
         {
-            await _ticketRepository.UpdateTicketAsync(_mapper.Map<Ticket>(book));
+            await _ticketRepository.UpdateTicketAsync(_mapper.Map<Ticket>(Ticket));
         }
     }
 }

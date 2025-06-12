@@ -10,10 +10,10 @@ namespace Unified.Application.Interfaces
 {
     public interface ITicketService
     {
-        Task<IEnumerable<TicketDto>> GetAllBooksAsync();
-        Task<TicketDto> GetBookByIdAsync(int id);
-        Task AddBookAsync(CreateTicketDto book);
-        Task UpdateBookAsync(TicketDto book);
-        Task DeleteBookAsync(TicketDto book);
+        Task<IEnumerable<TicketDto>> GetAllTicketsAsync();
+        Task<TicketDto> GetTicketByIdAsync(int id);
+        Task AddTicketAsync(CreateTicketDto book);
+        Task UpdateTicketAsync(TicketDto book);
+        Task DeleteTicketAsync(TicketDto book);
     }
 }

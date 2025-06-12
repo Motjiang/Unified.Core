@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Unified.Application.DTOs.Ticket;
@@ -22,29 +23,29 @@ namespace Unified.Application.Services
             _mapper = mapper;
         }
 
-        public async Task AddBookAsync(CreateTicketCategoryDto book)
+        public async Task AddTicketCategoryAsync(CreateTicketCategoryDto ticket)
         {
-            await _ticketCategoryRepository.AddTicketCategoryAsync(_mapper.Map<TicketCategory>(book));
+            await _ticketCategoryRepository.AddTicketCategoryAsync(_mapper.Map<TicketCategory>(ticket));
         }
 
-        public async Task DeleteBookAsync(TicketCategoryDto book)
+        public async Task DeleteTicketCategoryAsync(TicketCategoryDto ticket)
         {
-            await _ticketCategoryRepository.DeleteTicketCategoryAsync(_mapper.Map<TicketCategory>(book));
+            await _ticketCategoryRepository.DeleteTicketCategoryAsync(_mapper.Map<TicketCategory>(ticket));
         }
 
-        public async Task<IEnumerable<TicketCategoryDto>> GetAllBooksAsync()
+        public async Task<IEnumerable<TicketCategoryDto>> GetAllTicketCategoriesAsync()
         {
             return _mapper.Map<IEnumerable<TicketCategoryDto>>(await _ticketCategoryRepository.GetAllTicketCategoriesAsync());
         }
 
-        public async Task<TicketCategoryDto> GetBookByIdAsync(int id)
+        public async Task<TicketCategoryDto> GetTicketCategoryByIdAsync(int id)
         {
             return _mapper.Map<TicketCategoryDto>(await _ticketCategoryRepository.GetTicketCategoryByIdAsync(id));
         }
 
-        public async Task UpdateBookAsync(TicketCategoryDto book)
+        public async Task UpdateTicketCategoryAsync(TicketCategoryDto ticket)
         {
-            await _ticketCategoryRepository.UpdateTicketCategoryAsync(_mapper.Map<TicketCategory>(book));
+            await _ticketCategoryRepository.UpdateTicketCategoryAsync(_mapper.Map<TicketCategory>(ticket));
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task AddTicketAsync(Ticket ticket)
         {
+            ticket.Status = "Active"; // Ensure the ticket is set to active when added
             await _context.Tickets.AddAsync(ticket);
             await _context.SaveChangesAsync();
         }
@@ -52,6 +53,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteTicketAsync(Ticket ticket)
         {
+            ticket.Status = "Inactive"; // Set the ticket status to inactive instead of deleting
             _context.Tickets.Update(ticket);
             await _context.SaveChangesAsync();
         }
