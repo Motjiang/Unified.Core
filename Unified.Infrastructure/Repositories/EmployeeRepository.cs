@@ -60,6 +60,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteEmployeeAsync(Employee employee)
         {
+            employee.Status = "Inactive";
             _context.Users.Update(employee);
             await _context.SaveChangesAsync();
         }

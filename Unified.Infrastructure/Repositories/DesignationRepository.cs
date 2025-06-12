@@ -21,6 +21,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task AddDesignationAsync(Designation designation)
         {
+            designation.Status = "Active"; // Set default status to Active
             await _context.Designations.AddAsync(designation);
             await _context.SaveChangesAsync();
         }
@@ -50,6 +51,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteDesignationAsync(Designation designation)
         {
+            designation.Status = "Inactive"; // Soft delete
             _context.Designations.Update(designation);
             await _context.SaveChangesAsync();
         }

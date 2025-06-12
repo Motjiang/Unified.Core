@@ -21,6 +21,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task AddDepartmentAsync(Department department)
         {
+            department.Status = "Active"; // Set default status to Active
             await _context.Departments.AddAsync(department);
             await _context.SaveChangesAsync();
         }
@@ -49,6 +50,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteDepartmentAsync(Department department)
         {
+            department.Status = "Inactive"; // Soft delete
             _context.Departments.Update(department);
             await _context.SaveChangesAsync();
         }
