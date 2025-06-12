@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Unified.Application.DTOs.Employee;
+
+namespace Unified.Application.Interfaces
+{
+    public interface IEmployeeService
+    {
+        Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync();
+        Task<EmployeeDto> GetEmployeeByIdAsync(string id);
+        Task AddEmployeeAsync(CreateEmployeeDto employee);
+        Task UpdateEmployeeAsync(EmployeeDto employee);
+        Task DeleteEmployeeAsync(EmployeeDto employee);
+    }
+}

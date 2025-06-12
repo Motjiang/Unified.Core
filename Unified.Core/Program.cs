@@ -54,6 +54,7 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITicketCategoryService, TicketCategoryService>();
 builder.Services.AddScoped<ITicketSubcategoryService, TicketSubcategoryService>();
 builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 
 // defining our IdentityCore Service

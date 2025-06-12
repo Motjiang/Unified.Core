@@ -10,6 +10,7 @@ using Unified.Application.DTOs.Admin;
 using Unified.Application.DTOs.Book;
 using Unified.Application.DTOs.Department;
 using Unified.Application.DTOs.Designation;
+using Unified.Application.DTOs.Employee;
 using Unified.Application.DTOs.Leave;
 using Unified.Application.DTOs.Ticket;
 using Unified.Domain.Entities;
@@ -95,6 +96,11 @@ namespace Unified.Application.Mappings
             CreateMap<LeaveRequest, LeaveRequestDto>();
             CreateMap<CreateLeaveRequestDto, LeaveRequest>()
                 .ForMember(dest => dest.LeaveRequestId, opt => opt.Ignore());
+
+            // Employee Mappings
+            CreateMap<Employee, EmployeeDto>();
+            CreateMap<CreateEmployeeDto, Employee>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }
