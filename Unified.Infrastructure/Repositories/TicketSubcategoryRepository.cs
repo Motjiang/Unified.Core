@@ -20,6 +20,7 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task AddTicketSubcategoryAsync(TicketSubcategory ticketSubcategory)
         {
+            ticketSubcategory.Status = "Active"; // Set default status to Active
             await _context.TicketSubcategories.AddAsync(ticketSubcategory);
             await _context.SaveChangesAsync();
         }
@@ -49,7 +50,8 @@ namespace Unified.Infrastructure.Repositories
 
         public async Task DeleteTicketSubcategoryAsync(TicketSubcategory ticketSubcategory)
         {
-           _context.TicketSubcategories.Update(ticketSubcategory);
+            ticketSubcategory.Status = "Inactive"; // Soft delete by setting status to Inactive
+            _context.TicketSubcategories.Update(ticketSubcategory);
             await _context.SaveChangesAsync();
         }
     }
