@@ -82,7 +82,7 @@ public class DepartmentController : ControllerBase
 
             if (await CheckDepartmentExistsAsync(departmentDto.name))
             {
-                return BadRequest(new { title = "Already Exists", message = "A department with this name already exists." });
+                return Conflict(new { title = "Already Exists", message = "A department with this name already exists." });
             }
 
             await _departmentService.AddAsync(departmentDto);
@@ -126,7 +126,7 @@ public class DepartmentController : ControllerBase
 
             if (await CheckDepartmentExistsAsync(departmentDto.name, departmentDto.id))
             {
-                return BadRequest(new { title = "Already Exists", message = "A department with this name already exists." });
+                return Conflict(new { title = "Already Exists", message = "A department with this name already exists." });
             }
 
             await _departmentService.UpdateAsync(departmentDto);
@@ -183,7 +183,7 @@ public class DepartmentController : ControllerBase
             _context.AuditTrails.Add(systemAuditLog);
             await _context.SaveChangesAsync();
 
-            return Ok(new { title = "Success", message = "The department has been deleted successfully." });
+            return NoContent();
         }
         catch (Exception)
         {
