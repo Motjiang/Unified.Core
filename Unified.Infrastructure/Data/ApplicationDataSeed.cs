@@ -48,7 +48,9 @@ namespace Unified.Infrastructure.Data
                     Status = "Active",
                     CreatedBy = "0000",
                     DateCreated = DateTime.Now,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    DepartmentId = 1,
+                    DesignationId = 1
                 };
                 await _userManager.CreateAsync(admin, "123456");
                 await _userManager.AddToRoleAsync(admin, DataSeed.AdminRole);
@@ -67,7 +69,9 @@ namespace Unified.Infrastructure.Data
                     Status = "Active",
                     CreatedBy = "000",
                     DateCreated = DateTime.Now,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    DepartmentId = 2,
+                    DesignationId = 2
                 };
                 await _userManager.CreateAsync(hr, "123456");
                 await _userManager.AddToRoleAsync(hr, DataSeed.HrRole);

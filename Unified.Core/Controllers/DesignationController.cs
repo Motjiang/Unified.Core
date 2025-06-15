@@ -32,7 +32,7 @@ namespace Unified.Core.Controllers
         {
             try
             {
-                var allDesignations = (await _designationService.GetAllAsync()).ToList(); // Force materialize and type
+                var allDesignations = (await _designationService.GetAllAsync()).ToList(); 
 
                 if (!string.IsNullOrWhiteSpace(searchString))
                 {

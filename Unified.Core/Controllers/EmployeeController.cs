@@ -30,23 +30,77 @@ namespace Unified.Core.Controllers
         }
 
         [HttpGet("get-all-employees")]
-        public async Task<IActionResult> GetAllEmployees()
+        public async Task<IActionResult> GetAllEmployees([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string searchString = "", [FromQuery] int? designationId = null, [FromQuery] int? departmentId = null)
         {
-            var loogedInUser = await _userManager.GetUserAsync(User);
-
-            var employees = await _employeeService.GetAllEmployeesAsync(loogedInUser.Id);
-
-            if (employees == null || !employees.Any())
+            try
             {
-                return NotFound(new
+                var loggedInUser = await _userManager.GetUserAsync(User);
+
+                var allEmployees = (await _employeeService.GetAllEmployeesAsync(loggedInUser.Id)).ToList();
+
+                // Filter by search string (first name or last name)
+                if (!string.IsNullOrWhiteSpace(searchString))
                 {
-                    title = "No Employees Found",
-                    message = "There are no employees in the system."
+                    allEmployees = allEmployees
+                        .Where(e =>
+                            (!string.IsNullOrWhiteSpace(e.FirstName) &&
+                             e.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
+                            (!string.IsNullOrWhiteSpace(e.LastName) &&
+                             e.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                        .ToList();
+                }
+
+                // Filter by designation
+                if (designationId.HasValue)
+                {
+                    allEmployees = allEmployees
+                        .Where(e => e.DesignationId == designationId.Value)
+                        .ToList();
+                }
+
+                // Filter by department
+                if (departmentId.HasValue)
+                {
+                    allEmployees = allEmployees
+                        .Where(e => e.DepartmentId == departmentId.Value)
+                        .ToList();
+                }
+
+                var totalCount = allEmployees.Count;
+
+                var pagedEmployees = allEmployees
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                if (!pagedEmployees.Any())
+                {
+                    return NotFound(new
+                    {
+                        title = "No Employees Found",
+                        message = "There are no matching employees."
+                    });
+                }
+
+                return Ok(new
+                {
+                    data = pagedEmployees,
+                    totalCount = totalCount,
+                    pageIndex = pageIndex,
+                    pageSize = pageSize
                 });
             }
-
-            return Ok(employees);
+            catch (Exception)
+            {
+                return StatusCode(500, new
+                {
+                    title = "Server Error",
+                    message = "An unexpected error occurred. Please contact support."
+                });
+            }
         }
+
+
 
         [HttpGet("get-employee-by-id/{id}")]
         public async Task<IActionResult> GetEmployeeById(string id)

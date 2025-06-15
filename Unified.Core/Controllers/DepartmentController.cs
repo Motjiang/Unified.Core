@@ -25,16 +25,42 @@ public class DepartmentController : ControllerBase
     }
 
     [HttpGet("get-all-departments")]
-    public async Task<IActionResult> GetAllDepartments()
+    public async Task<IActionResult> GetAllDepartments([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string searchString = "")
     {
         try
         {
-            var departments = await _departmentService.GetAllAsync();
-            if (departments == null || !departments.Any())
+            var allDepartments = (await _departmentService.GetAllAsync()).ToList();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                return NotFound(new { title = "No Departments Found", message = "There are no departments in the system." });
+                allDepartments = allDepartments
+                    .Where(d => d.name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
             }
-            return Ok(departments);
+
+            var totalCount = allDepartments.Count;
+
+            var pagedDepartments = allDepartments
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            if (!pagedDepartments.Any())
+            {
+                return NotFound(new
+                {
+                    title = "No Departments Found",
+                    message = "There are no matching departments."
+                });
+            }
+
+            return Ok(new
+            {
+                data = pagedDepartments,
+                totalCount = totalCount,
+                pageIndex = pageIndex,
+                pageSize = pageSize
+            });
         }
         catch (Exception)
         {
@@ -45,6 +71,7 @@ public class DepartmentController : ControllerBase
             });
         }
     }
+
 
     [HttpGet("get-department-by-id/{id}")]
     public async Task<IActionResult> GetDepartmentById(int id)
