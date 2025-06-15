@@ -28,16 +28,42 @@ namespace Unified.Core.Controllers
         }
 
         [HttpGet("get-all-designations")]
-        public async Task<IActionResult> GetAllDesignations()
+        public async Task<IActionResult> GetAllDesignations([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string searchString = "")
         {
             try
             {
-                var designations = await _designationService.GetAllAsync();
-                if (designations == null || !designations.Any())
+                var allDesignations = (await _designationService.GetAllAsync()).ToList(); // Force materialize and type
+
+                if (!string.IsNullOrWhiteSpace(searchString))
                 {
-                    return NotFound(new { title = "No Designations Found", message = "There are no designations in the system." });
+                    allDesignations = allDesignations
+                        .Where(d => d.title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
                 }
-                return Ok(designations);
+
+                var totalCount = allDesignations.Count;
+
+                var pagedDesignations = allDesignations
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                if (!pagedDesignations.Any())
+                {
+                    return NotFound(new
+                    {
+                        title = "No Designations Found",
+                        message = "There are no matching designations."
+                    });
+                }
+
+                return Ok(new
+                {
+                    data = pagedDesignations,
+                    totalCount = totalCount,
+                    pageIndex = pageIndex,
+                    pageSize = pageSize
+                });
             }
             catch (Exception)
             {
@@ -48,6 +74,8 @@ namespace Unified.Core.Controllers
                 });
             }
         }
+
+
 
         [HttpGet("get-designation-by-id/{id}")]
         public async Task<IActionResult> GetDesignationById(int id)

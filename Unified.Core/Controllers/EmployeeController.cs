@@ -151,7 +151,7 @@ namespace Unified.Core.Controllers
                     });
                 }
 
-                await _employeeService.UpdateEmployeeAsync(employeeDto);
+                await _employeeService.UpdateEmployeeAsync(employeeDto, employeeDto.Role);
 
                 var systemAuditLog = new AuditTrail
                 {
