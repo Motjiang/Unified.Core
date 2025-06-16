@@ -12,8 +12,5 @@ namespace Unified.Application.DTOs.Department
         [Required(ErrorMessage = "Name is required")]
         [StringLength(100, ErrorMessage = "Name must be at most {1} characters")]
         public string name { get; init; }
-
-        [Required(ErrorMessage = "Status is required")]
-        public string status { get; init; }
     }
 }

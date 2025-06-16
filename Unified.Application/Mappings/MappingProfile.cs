@@ -45,7 +45,6 @@ namespace Unified.Application.Mappings
             // CreateDepartment Mappings
             CreateMap<CreateDepartmentDto, Department>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.name))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.status))
                 .ForMember(dest => dest.DepartmentId, opt => opt.Ignore());
 
             // Destination Mappings
