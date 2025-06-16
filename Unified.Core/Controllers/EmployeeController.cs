@@ -30,7 +30,7 @@ namespace Unified.Core.Controllers
         }
 
         [HttpGet("get-all-employees")]
-        public async Task<IActionResult> GetAllEmployees([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string searchString = "", [FromQuery] int? designationId = null, [FromQuery] int? departmentId = null)
+        public async Task<IActionResult> GetAllEmployees([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string searchString = "", [FromQuery] int? departmentId = null)
         {
             try
             {
@@ -47,14 +47,6 @@ namespace Unified.Core.Controllers
                              e.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
                             (!string.IsNullOrWhiteSpace(e.LastName) &&
                              e.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
-                }
-
-                // Filter by designation
-                if (designationId.HasValue)
-                {
-                    allEmployees = allEmployees
-                        .Where(e => e.DesignationId == designationId.Value)
                         .ToList();
                 }
 
@@ -99,8 +91,6 @@ namespace Unified.Core.Controllers
                 });
             }
         }
-
-
 
         [HttpGet("get-employee-by-id/{id}")]
         public async Task<IActionResult> GetEmployeeById(string id)
